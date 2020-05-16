@@ -235,46 +235,59 @@ class Xrain
   end
 
   def azimuth_start(sector)
+    return @sector_header[sector][0]
   end
 
   def azimuth_end(sector)
-  end
+    return @sector_header[sector][1] 
+ end
 
   def elevation_start(sector)
+    return @sector_header[sector][4]
   end
 
   def elevation_end(sector)
+    return @sector_header[sector][3]
   end
 
   def range_num()
+    return @parameter[22]
   end
 
   def range_min()
+    return @parameter[19]
   end
   
   def range_max()
+    return @parameter[20]
   end
   
   def range_step()
+    return @parameter[21]
   end
   
   def azimuth_num()
+    return @parameter[23]
   end
   
   def date()
+    return "#{@parameter[2][0]}-#{@parameter[2][1]}-#{@parameter[2][2]}"
   end
   
   def time()
+    return "#{@parameter[3][0]}:#{@parameter[3][1]}:00"
   end
 
-  def elevation()
+  def obs_start()
+    return "#{@parameter[17][0]}:#{@parameter[17][1]}:#{@parameter[17][2]}"
   end
 
+  def obs_end()
+    return "#{@parameter[18][0]}:#{@parameter[18][1]}:#{@parameter[18][2]}"
+  end
   
+  def elevation()
+    return @parameter[9]
+  end
   
 end
- 
-radar=Xrain.new(ARGV[0])
-radar.parameter
-puts radar.value(20, 3000)
-
