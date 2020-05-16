@@ -2,7 +2,8 @@
 # coding: utf-8
 
 class Xrain
-  
+
+  @@status=["正常", "異常"]
   def initialize(inputFile, display=true)
     if display then
       credit()
@@ -78,9 +79,9 @@ class Xrain
     
     # STATUS
     if data[2][2]=="01" then
-      parameter[4]="正常"    
+      parameter[4]=0
     else
-      parameter[4]="異常"
+      parameter[4]=1
     end
     
     # ROTATION
@@ -108,9 +109,9 @@ class Xrain
     
     # SITE STATUS
     if data[3][5]+data[3][6]+data[3][7]+data[3][8]=="00000004" then
-      parameter[10]="正常"
+      parameter[10]=0
     else
-      parameter[10]="異常"
+      parameter[10]=1
     end
     
     # LATITUDE
@@ -191,34 +192,40 @@ class Xrain
     puts ""
   end
     
-  def parameter()
-    puts ""
-    puts "   レーダーサイト     : #{extract_site()}"
-    puts "   データ種別         : #{extract_type()}"
-    puts "   データ配信日時     : #{@parameter[2][0]}年#{@parameter[2][1]}月#{@parameter[2][2]}日 #{@parameter[3][0]}時#{@parameter[3][1]}分 (日本標準時)"
-    puts "   XRAINステータス    : #{@parameter[4]}"
-    puts "   サイトステータス   : #{@parameter[10]}"
-    puts "   レーダー回転速度   : #{@parameter[5]} rpm" 
-    puts "   運用モード         : #{@parameter[6]}"
-    puts "   CAPPI仰角数        : #{@parameter[7]}"
-    puts "   CAPPI仰角番号      : #{@parameter[8]}"
-    puts "   CAPPI仰角          : #{@parameter[9]}度"
-    puts "   レーダーサイト緯度 : 北緯#{@parameter[11][0]}度#{@parameter[11][1]}分#{@parameter[11][2]}秒"
-    puts "   レーダーサイト経度 : 東経#{@parameter[12][0]}度#{@parameter[12][1]}分#{@parameter[12][2]}秒"
-    puts "   レーダーサイト高度 : #{@parameter[13]} m"
-    puts "   水平偏波送信電力   : #{@parameter[14]} kW"
-    puts "   垂直偏波送信電力   : #{@parameter[15]} kW"
-    puts "   送信周波数         : #{@parameter[16]} GHz"
-    puts "   観測開始時刻       : #{@parameter[17][0]}時#{@parameter[17][1]}分#{@parameter[17][2]}秒 (日本標準時)"
-    puts "   観測終了時刻       : #{@parameter[18][0]}時#{@parameter[18][1]}分#{@parameter[18][2]}秒 (日本標準時)"
-    puts "   視線方向最小距離   : #{@parameter[19]} km"
-    puts "   視線方向最大距離   : #{@parameter[20]} km"
-    puts "   視線方向ステップ   : #{@parameter[21]} km"
-    puts "   視線方向観測数     : #{@parameter[22]}"
-    puts "   方位角観測数       : #{@parameter[23]}"
-    puts ""
+  def parameter(switch=false)
+    string=Array.new
+    string << ""
+    string << "   レーダーサイト     : #{extract_site()}"
+    string << "   データ種別         : #{extract_type()}"
+    string << "   データ配信日時     : #{@parameter[2][0]}年#{@parameter[2][1]}月#{@parameter[2][2]}日 #{@parameter[3][0]}時#{@parameter[3][1]}分 (日本標準時)"
+    string << "   XRAINステータス    : #{@@status[@parameter[4]]}"
+    string << "   サイトステータス   : #{@@status[@parameter[10]]}"
+    string << "   レーダー回転速度   : #{@parameter[5]} rpm" 
+    string << "   運用モード         : #{@parameter[6]}"
+    string << "   CAPPI仰角数        : #{@parameter[7]}"
+    string << "   CAPPI仰角番号      : #{@parameter[8]}"
+    string << "   CAPPI仰角          : #{@parameter[9]}度"
+    string << "   レーダーサイト緯度 : 北緯#{@parameter[11][0]}度#{@parameter[11][1]}分#{@parameter[11][2]}秒"
+    string << "   レーダーサイト経度 : 東経#{@parameter[12][0]}度#{@parameter[12][1]}分#{@parameter[12][2]}秒"
+    string << "   レーダーサイト高度 : #{@parameter[13]} m"
+    string << "   水平偏波送信電力   : #{@parameter[14]} kW"
+    string << "   垂直偏波送信電力   : #{@parameter[15]} kW"
+    string << "   送信周波数         : #{@parameter[16]} GHz"
+    string << "   観測開始時刻       : #{@parameter[17][0]}時#{@parameter[17][1]}分#{@parameter[17][2]}秒 (日本標準時)"
+    string << "   観測終了時刻       : #{@parameter[18][0]}時#{@parameter[18][1]}分#{@parameter[18][2]}秒 (日本標準時)"
+    string << "   視線方向最小距離   : #{@parameter[19]} km"
+    string << "   視線方向最大距離   : #{@parameter[20]} km"
+    string << "   視線方向ステップ   : #{@parameter[21]} km"
+    string << "   視線方向観測数     : #{@parameter[22]}"
+    string << "   方位角観測数       : #{@parameter[23]}"
+    string << ""
+    if switch then
+      return string
+    else
+      puts string
+    end
   end
-  
+    
   def value(i, j)
     if (i>=0)&&(i<@parameter[22])&&(j>=0)&&(j<@parameter[23]) then
       number=["05", "06", "07", "08","09", "0E", "11", "12", "15", "19", "21", "25", "31", "35"]
