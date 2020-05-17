@@ -194,7 +194,6 @@ class Xrain
     
   def parameter(switch=false)
     string=Array.new
-    string << ""
     string << "   レーダーサイト     : #{extract_site()}"
     string << "   データ種別         : #{extract_type()}"
     string << "   データ配信日時     : #{@parameter[2][0]}年#{@parameter[2][1]}月#{@parameter[2][2]}日 #{@parameter[3][0]}時#{@parameter[3][1]}分 (日本標準時)"
@@ -218,16 +217,17 @@ class Xrain
     string << "   視線方向ステップ   : #{@parameter[21]} km"
     string << "   視線方向観測数     : #{@parameter[22]}"
     string << "   方位角観測数       : #{@parameter[23]}"
-    string << ""
     if switch then
       return string
     else
+      puts ""
       puts string
+      puts ""
     end
   end
     
   def value(i, j)
-    if (i>=0)&&(i<@parameter[22])&&(j>=0)&&(j<@parameter[23]) then
+    if (i>=0)&&(i<@parameter[23])&&(j>=0)&&(j<@parameter[22]) then
       number=["05", "06", "07", "08","09", "0E", "11", "12", "15", "19", "21", "25", "31", "35"]
       a=[90.0, 95.0, 100.0, 105.0, 1.0, 80.0, 85.0, 1.0, 1.0, 1.0, 1.0, 1.0, 360.0, 1.0]
       b=[0.0, 0.0, 0.0, 0.0, 32768.0, 0.0, 0.0, 32768.0, 32768.0, 1.0, 32768.0, 1.0, 1.0, 32768.0]
