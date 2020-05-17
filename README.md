@@ -1,4 +1,4 @@
-# XRAIN
+# RubyXRAIN
 
 ## はじめに
 
